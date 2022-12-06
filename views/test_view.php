@@ -22,7 +22,7 @@
                         <input id="upload" type="file" accept="image/*" />
                         <div>
                             <h2>Imagen Original </h2> 
-                            <img style="margin-top: 5px;" id="originalImage"  src="demo.jpg"  crossorigin="anonymous" />
+                            <img style="margin-top: 5px;" id="originalImage"  src=""  crossorigin="anonymous" />
                         </div>
 
                         <div style="margin-top: 5px;">
@@ -50,17 +50,17 @@
  <script>  
 
 
-const fileInput = document.querySelector("#upload");
+var fileInput = document.querySelector("#upload");
 
 /*Imagen Original y la imagen comprimir*/
-const originalImage = document.querySelector("#originalImage");
-const compressedImage = document.querySelector("#compressedImage");
+var originalImage = document.querySelector("#originalImage");
+var compressedImage = document.querySelector("#compressedImage");
 
 /* Definiciones de rango y calidad */
-const resizingElement = document.querySelector("#resizingRange");
-const qualityElement = document.querySelector("#qualityRange");
+var resizingElement = document.querySelector("#resizingRange");
+var qualityElement = document.querySelector("#qualityRange");
 
-const uploadButton = document.querySelector("#uploadButton");
+var uploadButton = document.querySelector("#uploadButton");
 
 let compressedImageBlob;
 

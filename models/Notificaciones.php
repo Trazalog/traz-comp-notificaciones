@@ -15,7 +15,7 @@ class Notificaciones extends CI_Model {
     function insert_image($data){
         
         log_message('DEBUG','#TRAZA | #TRAZ-COMP-NOTIFICACIONES | Notificaciones | insert_image: '.json_encode($data));
-        $this->db->insert("core.tbl_images", $data);  
+        $this->db->insert("core.tbl_images", $data); 
         
     }  
     

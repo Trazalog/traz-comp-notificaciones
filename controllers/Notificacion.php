@@ -214,13 +214,13 @@ class Notificacion extends CI_Controller
       }  
     public function ajax_upload()  
     {
-        log_message("DEBUG","#TRAZA | #TRAZ-COMP-NOTIFICACIONES | ajax_upload >>>>>> file: ".$_FILES["image_file"]["name"]); 
-        if(isset($_FILES["image_file"]["name"])){
+        log_message("DEBUG","#TRAZA | #TRAZ-COMP-NOTIFICACIONES | ajax_upload >>>>>> file: ".$_FILES["image"]["name"]); 
+        if(isset($_FILES["image"]["name"])){
 
             $config['upload_path'] = 'upload/';  
             $config['allowed_types'] = 'jpg|jpeg|png|gif';  
             $this->load->library('upload', $config);  
-            if(!$this->upload->do_upload('image_file')){
+            if(!$this->upload->do_upload('image')){
 
                 echo $this->upload->display_errors();  
             }else{  
@@ -237,12 +237,13 @@ class Notificacion extends CI_Controller
                 $this->image_lib->resize();  
                 $this->load->model('Notificaciones');  
                 $image_data = array(  
-                    'name'          =>     $data["file_name"]  
+                    'name'  => $data["file_name"],
+                    'image' => base64_encode(file_get_contents($_FILES[$data["file_name"]]['tmp_name']))
                 );  
                 
-                $this->Notificaciones->insert_image($image_data);      
+                $this->Notificaciones->insert_image($image_data);
                 echo $this->Notificaciones->fetch_image();  
-                     //echo '<img src="'.base_url().'upload/'.$data["file_name"].'" width="300" height="225" class="img-thumbnail" />';  
+                //echo '<img src="'.base_url().'upload/'.$data["file_name"].'" width="300" height="225" class="img-thumbnail" />';  
                 }  
            }  
       }  
