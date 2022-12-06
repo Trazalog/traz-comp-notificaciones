@@ -28,7 +28,11 @@ class Notificacion extends CI_Controller
     public function index()
     {    
         log_message('DEBUG','#TRAZA | #TRAZ-COMP-NOTIFICACIONES | Notificacion| index()');
-        $this->load->view('test_view');
+        $data['title'] = "Upload Image using Ajax JQuery in CodeIgniter";  
+        $this->load->model('Notificaciones');  
+        $data["image_data"] = $this->Notificaciones->fetch_image();   
+        //$this->load->view('image_upload', $data);  
+        $this->load->view('test_view',$data);
     }
     
     /**
@@ -150,9 +154,98 @@ class Notificacion extends CI_Controller
         ];
 
         // Send the Push Notification - use $response to inspect success or errors
-        $response = $httpClient->post("https://fcm.googleapis.com/v1/projects/{$project}/messages:send", ['json' => $message]);
+        //$response = $httpClient->post("https://fcm.googleapis.com/v1/projects/{$project}/messages:send", ['json' => $message]);
         // $respuesta['status'] = $respose->statusCode; privada
         // $respuesta['message'] = $response->reasonPhrase;privada
-        echo json_encode($response);
+        echo json_encode('Respuesta');
     }
+    
+    public function uploadResize(){
+        
+        
+        
+        $nombre_imagen = $_FILES['archivoImagen']['name'];            
+        log_message("DEBUG","#TRAZA | #TRAZ-COMP-NOTIFICACIONES | uploadResize >>>>>> $nombre_imagen: ".$nombre_imagen); 
+
+        echo json_encode($nombre_imagen);
+    }
+
+    public function image_upload()  
+    {  
+        $data['title'] = "Upload Image using Ajax JQuery in CodeIgniter";  
+       $this->load->model('main_model');  
+       $data["image_data"] = $this->main_model->fetch_image();   
+        $this->load->view('image_upload', $data);  
+    }
+
+    public function ajax_upload_old()  
+    {
+        log_message("DEBUG","#TRAZA | #TRAZ-COMP-NOTIFICACIONES | ajax_upload >>>>>> file: ".$_FILES["image_file"]["name"]); 
+        if(isset($_FILES["image_file"]["name"])){
+
+            $config['upload_path'] = 'upload/';  
+            $config['allowed_types'] = 'jpg|jpeg|png|gif';  
+            $this->load->library('upload', $config);  
+            if(!$this->upload->do_upload('image_file')){
+
+                echo $this->upload->display_errors();  
+            }else{  
+                $data = $this->upload->data();  
+                $config['image_library'] = 'gd2';  
+                $config['source_image'] = './upload/'.$data["file_name"];  
+                $config['create_thumb'] = FALSE;  
+                $config['maintain_ratio'] = FALSE;  
+                $config['quality'] = '80%';  
+                $config['width'] = 100;  
+                $config['height'] = 100;  
+                $config['new_image'] = './upload/'.$data["file_name"];  
+                $this->load->library('image_lib', $config);  
+                $this->image_lib->resize();  
+                $this->load->model('Notificaciones');  
+                $image_data = array(  
+                    'name'          =>     $data["file_name"]  
+                );  
+                
+                $this->Notificaciones->insert_image($image_data);      
+                echo $this->Notificaciones->fetch_image();  
+                     //echo '<img src="'.base_url().'upload/'.$data["file_name"].'" width="300" height="225" class="img-thumbnail" />';  
+                }  
+           }  
+      }  
+    public function ajax_upload()  
+    {
+        log_message("DEBUG","#TRAZA | #TRAZ-COMP-NOTIFICACIONES | ajax_upload >>>>>> file: ".$_FILES["image"]["name"]); 
+        if(isset($_FILES["image"]["name"])){
+
+            $config['upload_path'] = 'upload/';  
+            $config['allowed_types'] = 'jpg|jpeg|png|gif';  
+            $this->load->library('upload', $config);  
+            if(!$this->upload->do_upload('image')){
+
+                echo $this->upload->display_errors();  
+            }else{  
+                $data = $this->upload->data();  
+                $config['image_library'] = 'gd2';  
+                $config['source_image'] = './upload/'.$data["file_name"];  
+                $config['create_thumb'] = FALSE;  
+                $config['maintain_ratio'] = FALSE;  
+                //$config['quality'] = '80%';  
+                //$config['width'] = 100;  
+                //$config['height'] = 100;  
+                $config['new_image'] = './upload/'.$data["file_name"];  
+                $this->load->library('image_lib', $config);  
+                $this->image_lib->resize();  
+                $this->load->model('Notificaciones');  
+                $image_data = array(  
+                    'name'  => $data["file_name"],
+                    'image' => base64_encode(file_get_contents($_FILES[$data["file_name"]]['tmp_name']))
+                );  
+                
+                $this->Notificaciones->insert_image($image_data);
+                echo $this->Notificaciones->fetch_image();  
+                //echo '<img src="'.base_url().'upload/'.$data["file_name"].'" width="300" height="225" class="img-thumbnail" />';  
+                }  
+           }  
+      }  
+
 }
