@@ -6,7 +6,7 @@
             
             <div class="box-body">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <!--<h3 align="center"><?php /*echo $title;*/ ?></h3>  
                         <form method="post" id="upload_form" align="center" enctype="multipart/form-data">  
                             <input type="file" name="image_file" id="image_file" />  
@@ -24,20 +24,17 @@
                             <h2>Imagen Original </h2> 
                             <img style="margin-top: 5px;" id="originalImage"  src=""  crossorigin="anonymous" />
                         </div>
-
                         <div style="margin-top: 5px;">
                             <span>Redimensione: </span>
-                            <input type="range" min="1" max="100" value="80" id="resizingRange" />
+                            <input type="range" min="1" max="100" value="50" id="resizingRange" />
                         </div>
-                        
                         <div style="margin-top: 5px; margin-left: 8px;">
                             <span>Calidad: </span>
-                            <input type="range" min="1" max="100" value="80" id="qualityRange" />
+                            <input type="range" min="1" max="100" value="50" id="qualityRange" />
                         </div>
-                        
                         <h2>Imagen Comprimida </h2>
                         <div><b>Size:</b> <span id="size"></span></div>
-                        <img id="compressedImage" />
+                        <img id="compressedImage" style="display: block"/>
                         <div>
                             <button id="uploadButton">Enviar Imagen</button>
                         </div>
@@ -46,30 +43,25 @@
             </div>  
         </div>  
     </div>  
-   
- <script>  
-
-
+<script>
+/*INPUT IMAGEN CARGADA */
 var fileInput = document.querySelector("#upload");
-
 /*Imagen Original y la imagen comprimir*/
 var originalImage = document.querySelector("#originalImage");
 var compressedImage = document.querySelector("#compressedImage");
-
 /* Definiciones de rango y calidad */
 var resizingElement = document.querySelector("#resizingRange");
 var qualityElement = document.querySelector("#qualityRange");
-
+/*BOTON CARGA y IMAGEN COMPRIMIDA */
 var uploadButton = document.querySelector("#uploadButton");
-
-let compressedImageBlob;
-
-let resizingFactor = 0.8;
-let quality = 0.8;
-
+var compressedImageBlob;
+/* REDIMENSIONADORES Tamaño y Calidad */
+var resizingFactor = 0.50;
+var quality = 0.50;
 //Inicializador de la compresacion de la imagen
-compressImage(originalImage, resizingFactor, quality);
+// compressImage(originalImage, resizingFactor, quality);
 
+//Vinculacion del evento al input para tomar la imagen subida
 fileInput.addEventListener("change", async (e) => {
     const [file] = fileInput.files;
     // Variable que almacena la imagen original
@@ -183,9 +175,6 @@ function bytesToSize(bytes) {
 
     return Math.round(bytes / Math.pow(1024, i), 2) + " " + sizes[i];
 }
-
-
-
 /* *************************************************************** */
  $(document).ready(function(){  
       $('#upload_form').on('submit', function(e){  
