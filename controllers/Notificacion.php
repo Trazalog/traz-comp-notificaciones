@@ -31,7 +31,7 @@ class Notificacion extends CI_Controller
         $this->load->model('Notificaciones');
         $data["image_data"] = $this->Notificaciones->fetch_image();
         //$this->load->view('image_upload', $data);
-        $this->load->view('comprimir_redimensionar_imagenes_ejemplo',$data);
+        $this->load->view('test_audio_record',$data);
     }
     
     /**
