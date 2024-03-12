@@ -29,9 +29,8 @@ class Notificacion extends CI_Controller
         log_message('DEBUG','#TRAZA | #TRAZ-COMP-NOTIFICACIONES | Notificacion| index()');
         $data['title'] = "Upload Image using Ajax JQuery in CodeIgniter";
         $this->load->model('Notificaciones');
-        $data["image_data"] = $this->Notificaciones->fetch_image();
-        //$this->load->view('image_upload', $data);
-        $this->load->view('test_audio_record',$data);
+        // $data["image_data"] = $this->Notificaciones->fetch_image();
+        $this->load->view('test_view_copy', $data);
     }
     
     /**

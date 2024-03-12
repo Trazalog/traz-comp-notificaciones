@@ -13,7 +13,7 @@
                         </div>           
                         
                         <div class="form-group">
-                            <button type="button" id="send_form" class="btn btn-success" onclick="haceAlgo()">Enviar!</button>
+                            <button type="button" id="send_form" class="btn btn-success" onclick="sendPushNotification()">Enviar!</button>
                         </div>
                     </form>
                 </div>
